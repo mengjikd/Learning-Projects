@@ -6,6 +6,7 @@ import android.content.ServiceConnection;
 import android.os.IBinder;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
@@ -36,6 +37,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Button unbinService = (Button) findViewById(R.id.unbind_service);
         bindService.setOnClickListener(this);
         unbinService.setOnClickListener(this);
+        Button startIntentService = (Button) findViewById(R.id.start_intent_service);
+        startIntentService.setOnClickListener(this);
     }
 
     @Override
@@ -55,6 +58,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 break;
             case R.id.unbind_service:
                 unbindService(connection);//解绑服务
+                break;
+            case R.id.start_intent_service:
+                //打印主线程的id
+                Log.d("MainActivity", "Thread id is " + Thread.currentThread().getId());
+                Intent intentService = new Intent(this, MyIntentService.class);
+                startService(intentService);
                 break;
             default:
                 break;
