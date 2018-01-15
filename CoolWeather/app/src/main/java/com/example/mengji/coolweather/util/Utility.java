@@ -37,8 +37,36 @@ public class Utility {
         return false;
     }
 
+    public static boolean handleProvinceResponse2(String response) {
+        if (!TextUtils.isEmpty(response)) {
+            try {
+                JSONObject object = new JSONObject(response);
+                String list = object.getString("list");
+                JSONArray allProvinces = new JSONArray(list);
+                for (int i = 0; i < allProvinces.length(); i++) {
+                    JSONObject provinceObject = allProvinces.getJSONObject(i);
+                    Province province = new Province();
+                    province.setProvinceName(provinceObject.getString("name"));
+                    String city_id = provinceObject.getString("city_id");
+                    int id = 0;
+                    try {
+                        id = Integer.valueOf(city_id.replace("CH", ""));
+                    } catch (NumberFormatException e) {
+                        e.printStackTrace();
+                    }
+                    province.setProvinceCode(id);
+                    province.save();
+                }
+                return true;
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+        return false;
+    }
+
     /**
-     *解析和处理服务器返回市级数据
+     * 解析和处理服务器返回市级数据
      */
     public static boolean handleCityResponse(String response, int provinceId) {
         if (!TextUtils.isEmpty(response)) {
@@ -49,6 +77,7 @@ public class Utility {
                     City city = new City();
                     city.setCityName(cityObject.getString("name"));
                     city.setCityCode(cityObject.getInt("id"));
+                    city.setProvinceId(provinceId);
                     city.save();
                 }
                 return true;
@@ -58,6 +87,7 @@ public class Utility {
         }
         return false;
     }
+
     /**
      * 解析和处理服务器返回县级数据
      */
@@ -70,6 +100,7 @@ public class Utility {
                     County county = new County();
                     county.setCountyName(countyObject.getString("name"));
                     county.setWeatherId(countyObject.getString("weather_id"));
+                    county.setCityId(cityId);
                     county.save();
                 }
                 return true;

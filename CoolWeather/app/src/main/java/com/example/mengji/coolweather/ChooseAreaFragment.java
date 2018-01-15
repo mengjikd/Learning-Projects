@@ -182,25 +182,13 @@ public class ChooseAreaFragment extends Fragment {
     private void queryFromServer(String address, final String type) {
         showProgressDialog();
         HttpUtil.sendOkHttpRequest(address, new Callback() {
-            @Override
-            public void onFailure(Call call, IOException e) {
-                //通过runOnUIThread()方法回到主线程处理逻辑
-                getActivity().runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        closeProgressDialog();
-                        Toast.makeText(getContext(), "加载失败", Toast.LENGTH_SHORT).show();
-                    }
-                });
-
-            }
 
             @Override
             public void onResponse(Call call, Response response) throws IOException {
                 String responseText = response.body().string();
                 boolean result = false;
                 if ("province".equals(type)) {
-                    result = Utility.handleProvinceResponse(responseText);
+                    result = Utility.handleProvinceResponse2(responseText);
                 }else if ("city".equals(type)) {
                     result = Utility.handleCityResponse(responseText,selectedProvince.getId());
                 }else if ("county".equals(type)) {
@@ -222,7 +210,17 @@ public class ChooseAreaFragment extends Fragment {
                     });
                 }
             }
-
+            @Override
+            public void onFailure(Call call, IOException e) {
+                //通过runOnUIThread()方法回到主线程处理逻辑
+                getActivity().runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        closeProgressDialog();
+                        Toast.makeText(getContext(), "加载失败", Toast.LENGTH_SHORT).show();
+                    }
+                });
+            }
         });
     }
 
