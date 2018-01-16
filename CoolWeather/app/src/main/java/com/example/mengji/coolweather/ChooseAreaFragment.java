@@ -126,7 +126,7 @@ public class ChooseAreaFragment extends Fragment {
             listView.setSelection(0);
             currentLevel = LEVEL_PROVINCE;
         }else {
-            String address = "http://api.yytianqi.com/citylist/id/1";
+            String address = "http://guolin.tech/api/china";
             queryFromServer(address, "province");
         }
     }
@@ -148,7 +148,7 @@ public class ChooseAreaFragment extends Fragment {
             currentLevel = LEVEL_CITY;
         }else {
             int provinceCode = selectedProvince.getProvinceCode();
-            String address = "http://api.yytianqi.com/citylist/id/1" + provinceCode;
+            String address = "http://guolin.tech/api/china/" + provinceCode;
             queryFromServer(address, "city");
         }
     }
@@ -171,7 +171,7 @@ public class ChooseAreaFragment extends Fragment {
         }else {
             int provinceCode = selectedProvince.getProvinceCode();
             int cityCode = selectedCity.getCityCode();
-            String address = "http://api.yytianqi.com/citylist/id/1" + provinceCode + "/" + cityCode;
+            String address = "http://guolin.tech/api/china/" + provinceCode + "/" + cityCode;
             queryFromServer(address, "county");
         }
     }
@@ -188,7 +188,7 @@ public class ChooseAreaFragment extends Fragment {
                 String responseText = response.body().string();
                 boolean result = false;
                 if ("province".equals(type)) {
-                    result = Utility.handleProvinceResponse2(responseText);
+                    result = Utility.handleProvinceResponse(responseText);
                 }else if ("city".equals(type)) {
                     result = Utility.handleCityResponse(responseText,selectedProvince.getId());
                 }else if ("county".equals(type)) {
