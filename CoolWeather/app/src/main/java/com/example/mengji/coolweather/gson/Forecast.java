@@ -13,13 +13,13 @@ public class Forecast {
     @SerializedName("cond")
     public More more;
 
-    private class More {
-        public String max;
-        public String min;
-    }
-
-    private class Temperatuer {
+    public class More {
         @SerializedName("txt_d")
         public String info;
+    }
+
+    public class Temperatuer {
+        public String max;
+        public String min;
     }
 }
