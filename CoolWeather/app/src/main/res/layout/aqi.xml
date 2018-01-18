@@ -40,7 +40,9 @@
                     android:text="AQI 指数"
                     android:textColor="#fff"/>
             </LinearLayout>
+
         </RelativeLayout>
+
         <RelativeLayout
             android:layout_width="0dp"
             android:layout_height="match_parent"

@@ -50,8 +50,8 @@ public class WeatherActivity extends AppCompatActivity {
         comfortText = (TextView) findViewById(R.id.comfort_text);
         carWashText = (TextView) findViewById(R.id.car_wash_text);
         sportText = (TextView) findViewById(R.id.sport_text);
-        SharedPreferences perfs = PreferenceManager.getDefaultSharedPreferences(this);
-        String weatherString = perfs.getString("weather",null);
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+        String weatherString = prefs.getString("weather",null);
         if (weatherString != null) {
             //有缓存时直接解析天气数据
             Weather weather = Utility.handleWeatherResponse(weatherString);
@@ -59,7 +59,7 @@ public class WeatherActivity extends AppCompatActivity {
         }else {
             //无缓存时去服务期查询天气
             String weatherId = getIntent().getStringExtra("weather_id");
-            weatherLayout.setVisibility(View.INVISIBLE);
+            weatherLayout.setVisibility(View.VISIBLE);
             requestWeather(weatherId);
         }
     }
@@ -127,8 +127,8 @@ public class WeatherActivity extends AppCompatActivity {
             TextView minText = (TextView) view.findViewById(R.id.min_text);
             dateText.setText(forecast.date);
             infoText.setText(forecast.more.info);
-            maxText.setText(forecast.temperatuer.max);
-            minText.setText(forecast.temperatuer.min);
+            maxText.setText(forecast.temperature.max);
+            minText.setText(forecast.temperature.min);
             forecastLayout.addView(view);
         }
         if (weather.aqi != null) {
